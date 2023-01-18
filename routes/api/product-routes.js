@@ -15,12 +15,26 @@ router.get('/', async (req, res) => {
 router.get('/:id', async (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
-  const productData = await Product.findByPk(req.params.id);
-  res.json(productData);
+  Product.findOne({
+    where: { id: req.params.id },
+    include: [{ model: Category, attributes: ['category_name'] },
+    { model: Tag, attributes: ['tag_name'] }]
+      .then(dbProductData => {
+        if (dbProductData) {
+          res.status(404).JSON({ message: "Sorry, we didn't find any products with this id!" });
+          return;
+        }
+        res.json(dbProductData);
+      })
+      .catch(err => {
+        console.log(err);
+        res.status(500).JSON(err);
+      })
+  });
 });
 
 // create new product
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
   /* req.body should look like this...
     {
       product_name: "Basketball",
@@ -89,6 +103,7 @@ router.put('/:id', (req, res) => {
     .then((updatedProductTags) => res.json(updatedProductTags))
     .catch((err) => {
       // console.log(err);
+      console.log(err);
       res.status(400).json(err);
     });
 });
