@@ -40,7 +40,7 @@ router.get('/:id', (req, res) => {
         res.status(404).json({ message: "Sorry, no product with this id was found!" });
         return;
       }
-      res.json(productyData);
+      res.json(productData);
     })
     .catch(err => {
       console.log(err);
