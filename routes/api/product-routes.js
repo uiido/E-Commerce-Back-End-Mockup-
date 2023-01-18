@@ -28,15 +28,15 @@ router.get("/", (req, res) => {
 });
 
 // get one product
-router.get('/:id', async (req, res) => {
+router.get('/:id', (req, res) => {
   // find a single product by its `id`
   // be sure to include its associated Category and Tag data
-  const productData = await Product.findByPk(req.params.id);
+  Product.findByPk(req.params.id);
   res.json(productData);
 });
 
 // create new product
-router.post('/', async (req, res) => {
+router.post('/', (req, res) => {
   /* req.body should look like this...
     {
       product_name: "Basketball",
