@@ -23,6 +23,17 @@ router.get('/:id', (req, res) => {
     where: { id: req.params.id },
     include: [Product]
   })
+    .then(tagData => {
+      if (!tagData) {
+        res.status(404).json({ message: "Sorry, no tag with this id was found!" });
+        return;
+      }
+      res.json(tagData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
 });
 
 router.post('/', (req, res) => {
