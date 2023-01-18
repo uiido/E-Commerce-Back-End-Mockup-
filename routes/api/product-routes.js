@@ -124,6 +124,18 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete one product by its `id` value
+  Product.destroy({ where: { id: req.params.id } })
+    .then(productData => {
+      if (!productData) {
+        res.status(404).json({ message: 'Sorry, no product with this id was found!' });
+        return;
+      }
+      res.json({ message: 'This product was successfully deleted!' });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    });
 });
 
 module.exports = router;
