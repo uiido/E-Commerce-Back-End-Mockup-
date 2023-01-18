@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { restart } = require('nodemon');
 const { Tag, Product, ProductTag } = require('../../models');
 
 // The `/api/tags` endpoint
@@ -46,6 +47,18 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete on tag by its `id` value
+  Tag.destroy({ where: { id: req.params.id } })
+    .then(tagData => {
+      if (!tagData) {
+        res.status(404).json({ message: "Sorry, no tag with this id was found!" });
+        return;
+      }
+      res.json({ message: "This product was successfully deleted!" });
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
 });
 
 module.exports = router;
