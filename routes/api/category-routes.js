@@ -56,7 +56,7 @@ router.put('/:id', (req, res) => {
         res.status(404).json({ message: 'Sorry, no tag with this id was found!"' });
         return;
       }
-      res.json({ message: "This product was successfully deleted!" });
+      res.json({ message: "This product was successfully updated!" });
     })
     .catch(err => {
       console.log(err);
@@ -66,18 +66,22 @@ router.put('/:id', (req, res) => {
 
 router.delete('/:id', (req, res) => {
   // delete a category by its `id` value
-  Category.destroy({ where: { id: req.params.id } })
+  Category.destroy({
+    where: {
+      id: req.params.id
+    }
+  })
     .then(categoryData => {
       if (!categoryData) {
-        rest.status(404).json({ message: "Sorry, no category with this id was found!" });
+        res.status(404).json({ message: 'No category found with that ID.' });
         return;
       }
-      res.json(categoryData);
+      res.json({ message: 'This category was successfully deleted!' });
     })
     .catch(err => {
       console.log(err);
       res.status(500).json(err);
-    })
+    });
 });
 
 module.exports = router;

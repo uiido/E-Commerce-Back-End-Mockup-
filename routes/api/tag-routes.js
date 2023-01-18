@@ -57,7 +57,7 @@ router.put('/:id', (req, res) => {
         res.status(404).json({ message: "Sorry, no tag with this id was found!" });
         return;
       }
-      res.json({ message: "This product was successfully deleted!" });
+      res.json({ message: "This product was successfully updated!" });
     })
     .catch(err => {
       console.log(err);
