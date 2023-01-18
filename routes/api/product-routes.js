@@ -35,6 +35,17 @@ router.get('/:id', (req, res) => {
     where: { id: req.params.id },
     include: [Category, Tag]
   })
+    .then(productData => {
+      if (!productData) {
+        res.status(404).json({ message: "Sorry, no product with this id was found!" });
+        return;
+      }
+      res.json(productyData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
 });
 
 // create new product
