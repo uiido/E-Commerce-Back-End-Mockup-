@@ -9,9 +9,9 @@ router.get('/', (req, res) => {
   Category.findAll({
     include: [Product]
   })
-    .then(dbCategoryData => res.json(dbCategoryData))
+    .then(categoryData => res.json(categoryData))
     .catch(err => {
-      console.log(error);
+      console.log(err);
       res.status(500).json(err);
     });
 });
@@ -23,6 +23,17 @@ router.get('/:id', (req, res) => {
     where: { id: req.params.id },
     include: [Product]
   })
+    .then(categoryData => {
+      if (!categoryData) {
+        res.status(404).json({ message: "Sorry, no category with this id was found!" });
+        return;
+      }
+      res.json(categoryData);
+    })
+    .catch(err => {
+      console.log(err);
+      res.status(500).json(err);
+    })
 });
 
 router.post('/', (req, res) => {
